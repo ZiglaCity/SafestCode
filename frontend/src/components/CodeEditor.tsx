@@ -1,22 +1,31 @@
-import Editor from '@monaco-editor/react';
+import Editor from "@monaco-editor/react";
 
-function CodeEditor() {
-  const handleEditorChange = () => {
-    //use a state to keep track of the latest changes typed...
-    
+interface Props {
+  language?: string;
+  value?: string;
+  onChange?: (value: string | undefined) => void;
+}
+
+export default function CodeEditor({ language = "typescript", value, onChange }: Props) {
+
+  const handleEditorChange = (value: string | undefined) => {
+    onChange?.(value);
   };
 
   return (
-    <div style={{ height: '90vh' }}>
+    <div className="w-full h-[500px] border rounded-lg overflow-hidden">
       <Editor
         height="100%"
-        defaultLanguage="javascript"
-        defaultValue="// Start typing your code here..."
-        theme="vs-dark"
+        defaultLanguage={language}
+        value={value}
         onChange={handleEditorChange}
+        theme="vs-dark"
+        options={{
+          fontSize: 14,
+          minimap: { enabled: false },
+          automaticLayout: true,
+        }}
       />
     </div>
   );
 }
-
-export default CodeEditor;
