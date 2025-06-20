@@ -6,6 +6,7 @@ import SubmitOptions from './components/SubmitOptions';
 
 function App() {
   const [code, setCode] = useState("// Start typing your code here...");
+  const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
 
   const handleCodeChange = (updatedCode: string | undefined) => {
     setCode(updatedCode || "");
@@ -20,7 +21,7 @@ function App() {
     <div className="space-y-4">
       <CodeEditor value={code} onChange={handleCodeChange} />
       <SubmitButton onSubmit={handleSubmit} />
-      <SubmitOptions />
+      <SubmitOptions checked={selectedModes} onCheck={setSelectedModes} />
     </div>
   );
 }
