@@ -13,7 +13,13 @@ function App() {
   };
 
   const handleSubmit = () => {
-    console.log("Submitted code:", code);
+    const body = {
+      code,
+      mode : selectedModes,
+      language : "Javascript"
+    }
+    
+    console.log("Submitted code:", body);
     setCode("// we do something here later...");
   };
 
