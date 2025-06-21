@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
+import analyzeRoute from "./routes/analyzeRoute";
 
 const app: Application = express();
 app.use(cors());
@@ -14,6 +15,8 @@ app.get("/health", (req: Request, res: Response) => {
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello, Welcome to the SafestCode!!!");
 });
+
+app.use("/analyze", analyzeRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
