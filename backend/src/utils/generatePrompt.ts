@@ -4,24 +4,34 @@ interface Props {
   language: string;
 }
 
-export function generatePrompt(body: Props): string {
-  let prompt: string = body.code;
-  prompt += ` Using the above code as your reference, rewrite the entire code properly in ${body.language} and in a format that can be copied and pasted correctly into an editor. And; `;
-  const modes = body.mode.split(",").map((s) => s.trim());
-  for (const mode of modes) {
-    switch (mode) {
+export function generatePrompt({ code, mode, language }: Props): string {
+  const modes = mode.split(",").map((m) => m.trim().toLowerCase());
+
+  let prompt = `You are an expert AI code assistant. Analyze the following ${language} code:\n\n${code}\n\n`;
+
+  prompt += `Your tasks:\n`;
+
+  for (const m of modes) {
+    switch (m) {
       case "review":
-        prompt +=
-          "Review it and check for any improvements that than can be made. ";
+        prompt += `- Review the code for readability, performance, and best practices.\n`;
+        break;
       case "debug":
-        prompt += "Debug it and correct all forms of errors. ";
+        prompt += `- Identify and fix any syntax or logical bugs.\n`;
+        break;
       case "secure":
-        prompt +=
-          "Check the code properly for any forms of vulnerabilities and security flaws.";
+        prompt += `- Scan for potential security issues and explain how to fix them.\n`;
+        break;
+      default:
+        prompt += `- Note: "${m}" is not a recognized mode.\n`;
     }
   }
-  prompt +=
-    "Rewrite the corrected version... well documented as brief comments showing the differences made.";
-  console.log(prompt);
+
+  prompt += `\nAfter completing the analysis, respond with:\n`;
+  prompt += `1. A corrected version of the code, fully rewritten and ready to paste into an editor.\n`;
+  prompt += `2. Clear inline comments where changes were made.\n`;
+  prompt += `3. A short summary of what was changed or improved.\n`;
+  prompt += `\nRespond in markdown format.`;
+
   return prompt;
 }

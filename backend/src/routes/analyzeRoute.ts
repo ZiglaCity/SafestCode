@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-const { Analylzer } = require("../controllers/analyzeController");
+const { Analyzer } = require("../controllers/analyzeController");
 const router = Router();
 
 router.get("/", (req: Request, res: Response) => {
@@ -7,6 +7,6 @@ router.get("/", (req: Request, res: Response) => {
   res.send("Hi there, wah do you wanna analyze??");
 });
 
-router.post("/", Analylzer);
+router.post("/", Analyzer);
 
 export default router;
