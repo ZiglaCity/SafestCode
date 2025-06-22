@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
+import { generatePrompt } from "../utils/generatePrompt";
 const ENGINE_1 = process.env.ENGINE_1_URL as string;
 const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY as string;
 
-export default async function Analylzer(req: Request, res: Response) {
+export async function Analylzer(req: Request, res: Response) {
+  console.log("Analyzer called...");
   const body = req.body;
   const prompt = generatePrompt(body);
 
@@ -25,6 +29,7 @@ export default async function Analylzer(req: Request, res: Response) {
   };
 
   try {
+    console.log(ENGINE_1);
     const response = await axios.post(ENGINE_1, requestBody, {
       headers: {
         "Content-Type": "application/json",
@@ -42,6 +47,7 @@ export default async function Analylzer(req: Request, res: Response) {
     }
   } catch (err) {
     console.error("Engine 1 failed:", err);
+    // res.status(400).json({ success: false, err });
 
     try {
       const fallback = await axios.post(
@@ -59,7 +65,7 @@ export default async function Analylzer(req: Request, res: Response) {
       return res.status(200).json({ data: fallback.data, source: "deepseek" });
     } catch (fallbackErr) {
       console.error("Fallback engine failed too:", fallbackErr);
-      res.status(400).json({ success: false });
+      res.status(400).json({ success: false, fallbackErr });
     }
   }
 }

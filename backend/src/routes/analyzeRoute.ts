@@ -1,4 +1,5 @@
 import { Router, Request, Response } from "express";
+const { Analylzer } = require("../controllers/analyzeController");
 const router = Router();
 
 router.get("/", (req: Request, res: Response) => {
@@ -6,8 +7,6 @@ router.get("/", (req: Request, res: Response) => {
   res.send("Hi there, wah do you wanna analyze??");
 });
 
-router.post("/", (req: Request, res: Response) => {
-  console.log("POST /analylze");
-});
+router.post("/", Analylzer);
 
 export default router;
