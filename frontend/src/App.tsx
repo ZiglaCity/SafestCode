@@ -3,6 +3,8 @@ import './App.css'
 import CodeEditor from './components/CodeEditor'
 import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
+import { submitRequest } from './utils/sendCodeRequest';
+import extractCodeBlock from './utils/extractCleanCode';
 
 function App() {
   const [code, setCode] = useState("// Start typing your code here...");
@@ -12,15 +14,21 @@ function App() {
     setCode(updatedCode || "");
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const body = {
       code,
-      mode : selectedModes,
+      mode : selectedModes.join(","),
       language : "Javascript"
     }
     
     console.log("Submitted code:", body);
-    setCode("// we do something here later...");
+    const result = await submitRequest(body);
+    let reviewedCode = result?.code;
+    if (reviewedCode ){
+      reviewedCode = extractCodeBlock(reviewedCode);
+    }
+    setCode(reviewedCode);
+    console.log(result);
   };
 
   return (
