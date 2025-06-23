@@ -7,31 +7,34 @@ interface Props {
 export function generatePrompt({ code, mode, language }: Props): string {
   const modes = mode.split(",").map((m) => m.trim().toLowerCase());
 
-  let prompt = `You are an expert AI code assistant. Analyze the following ${language} code:\n\n${code}\n\n`;
+  let prompt = `You are an expert AI code assistant.\n`;
+  prompt += `The user has submitted ${language} code that may contain issues. Your task is to analyze and improve it.\n\n`;
 
-  prompt += `Your tasks:\n`;
+  prompt += `Here is the code:\n${code}\n\n`;
+
+  prompt += `Tasks:\n`;
 
   for (const m of modes) {
     switch (m) {
       case "review":
-        prompt += `- Review the code for readability, performance, and best practices.\n`;
+        prompt += `- Review the code for quality and best practices.\n`;
         break;
       case "debug":
-        prompt += `- Identify and fix any syntax or logical bugs.\n`;
+        prompt += `- Identify and fix bugs (syntax, logical, runtime).\n`;
         break;
       case "secure":
-        prompt += `- Scan for potential security issues and explain how to fix them.\n`;
+        prompt += `- Check for security flaws and unsafe patterns.\n`;
         break;
       default:
-        prompt += `- Note: "${m}" is not a recognized mode.\n`;
+        prompt += `- (Unknown mode: ${m})\n`;
     }
   }
 
-  prompt += `\nAfter completing the analysis, respond with:\n`;
-  prompt += `1. A corrected version of the code, fully rewritten and ready to paste into an editor.\n`;
-  prompt += `2. Clear inline comments where changes were made.\n`;
-  prompt += `3. A short summary of what was changed or improved.\n`;
-  prompt += `\nRespond in markdown format.`;
+  prompt += `\n Output Format:\n`;
+  prompt += `Return ONLY a valid ${language} file as the FIRST and MAIN output, enclosed in a single \`\`\`${language}\` code block.\n`;
+  prompt += `DO NOT write any explanations, summaries, or markdown outside of the code block.\n`;
+  prompt += `If you want to add a summary or changes made, put them as comments INSIDE the code block, either inline or at the bottom.\n`;
+  prompt += `The final output MUST be something that can be copied directly into an editor and executed.\n`;
 
   return prompt;
 }
