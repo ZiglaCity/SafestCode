@@ -25,6 +25,7 @@ export default function SubmitOptions ({checked, onCheck} : Props) {
 
     return (
         <div>
+            <h1>Code Review & Debugging Tool</h1>
             {options.map(option => (
                 <label key={option.value} className="block ml-0">
                     <input

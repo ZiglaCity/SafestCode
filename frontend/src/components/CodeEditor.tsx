@@ -6,7 +6,7 @@ interface Props {
   onChange?: (value: string | undefined) => void;
 }
 
-export default function CodeEditor({ language = "typescript", value, onChange }: Props) {
+export default function CodeEditor({ language, value, onChange }: Props) {
 
   const handleEditorChange = (value: string | undefined) => {
     onChange?.(value);
@@ -16,7 +16,7 @@ export default function CodeEditor({ language = "typescript", value, onChange }:
     <div className="w-full h-[500px] border rounded-lg overflow-hidden">
       <Editor
         height="100%"
-        defaultLanguage={language}
+        language={language}
         value={value}
         onChange={handleEditorChange}
         theme="vs-dark"

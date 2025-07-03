@@ -5,10 +5,12 @@ import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
 import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock from './utils/extractCleanCode';
+import LanguageSelector from './components/LanguageSelector';
 
 function App() {
   const [code, setCode] = useState("// Start typing your code here...");
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
+  const [language, setLanguage] = useState<string>("javascript");
 
   const handleCodeChange = (updatedCode: string | undefined) => {
     setCode(updatedCode || "");
@@ -18,7 +20,7 @@ function App() {
     const body = {
       code,
       mode : selectedModes.join(","),
-      language : "Javascript"
+      language,
     }
     
     console.log("Submitted code:", body);
@@ -32,10 +34,15 @@ function App() {
   };
 
   return (
-    <div className="space-y-4">
-      <CodeEditor value={code} onChange={handleCodeChange} />
-      <SubmitButton onSubmit={handleSubmit} />
-      <SubmitOptions checked={selectedModes} onCheck={setSelectedModes} />
+    <div className="flex space-y-4">
+      <div className='w-screen'>
+        <LanguageSelector setLanguage={setLanguage} />
+        <CodeEditor value={code} onChange={handleCodeChange} language={language} />
+      </div>
+      <div> 
+        <SubmitOptions checked={selectedModes} onCheck={setSelectedModes} />
+        <SubmitButton onSubmit={handleSubmit} />
+      </div>
     </div>
   );
 }
