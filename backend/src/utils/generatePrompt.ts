@@ -33,7 +33,8 @@ export function generatePrompt({ code, mode, language }: Props): string {
   prompt += `\n Output Format:\n`;
   prompt += `Return ONLY a valid ${language} file as the FIRST and MAIN output, enclosed in a single \`\`\`${language}\` code block.\n`;
   prompt += `DO NOT write any explanations, summaries, or markdown outside of the code block.\n`;
-  prompt += `If you want to add a summary or changes made, put them as comments INSIDE the code block, either inline or at the bottom.\n`;
+  prompt += `If you want to add a summary or changes made, put them as comments INSIDE the code block inline\n`;
+  prompt += `Provide the fully corrected version of the code first. After that, list all improvements made in a clear and numbered format starting with 'Summary of changes:'.`;
   prompt += `The final output MUST be something that can be copied directly into an editor and executed.\n`;
 
   return prompt;

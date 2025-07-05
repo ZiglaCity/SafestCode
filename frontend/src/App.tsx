@@ -6,11 +6,14 @@ import SubmitOptions from './components/SubmitOptions';
 import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock from './utils/extractCleanCode';
 import LanguageSelector from './components/LanguageSelector';
+import ResultPanel from './components/ResultPanel';
 
 function App() {
   const [code, setCode] = useState("// Start typing your code here...");
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
   const [language, setLanguage] = useState<string>("javascript");
+  const [summary, setSummary] = useState<string[]>([]);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCodeChange = (updatedCode: string | undefined) => {
     setCode(updatedCode || "");
@@ -26,9 +29,19 @@ function App() {
     console.log("Submitted code:", body);
     const result = await submitRequest(body);
     let reviewedCode = result?.code;
+    console.log("Reviewed code: ", reviewedCode)
     if (reviewedCode ){
       reviewedCode = extractCodeBlock(reviewedCode);
+      const [codeBlock, summaryBlock] = reviewedCode.split("// Summary of changes:");
+      const improvements = summaryBlock
+      .split(/\d+\.\s+/)
+      .filter((item : string) => item.trim() !== "");
+
+      reviewedCode = codeBlock.trim();
+      setSummary(improvements);
     }
+    console.log("New reviewed code :", reviewedCode);
+    console.log("Summary: ", summary);
     setCode(reviewedCode);
     console.log(result);
   };
@@ -38,6 +51,7 @@ function App() {
       <div className='w-screen'>
         <LanguageSelector setLanguage={setLanguage} />
         <CodeEditor value={code} onChange={handleCodeChange} language={language} />
+        { summary.length > 0 && <ResultPanel result={summary}/>}
       </div>
       <div> 
         <SubmitOptions checked={selectedModes} onCheck={setSelectedModes} />
