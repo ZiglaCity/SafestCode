@@ -4,7 +4,7 @@ import CodeEditor from './components/CodeEditor'
 import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
 import { submitRequest } from './utils/sendCodeRequest';
-import extractCodeBlock from './utils/extractCleanCode';
+import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import LanguageSelector from './components/LanguageSelector';
 import ResultPanel from './components/ResultPanel';
 
@@ -32,13 +32,9 @@ function App() {
     console.log("Reviewed code: ", reviewedCode)
     if (reviewedCode ){
       reviewedCode = extractCodeBlock(reviewedCode);
-      const [codeBlock, summaryBlock] = reviewedCode.split("// Summary of changes:");
-      const improvements = summaryBlock
-      .split(/\d+\.\s+/)
-      .filter((item : string) => item.trim() !== "");
-
+      const { codeBlock, summaryLines } = extractSummary(reviewedCode);
       reviewedCode = codeBlock.trim();
-      setSummary(improvements);
+      setSummary(summaryLines);
     }
     console.log("New reviewed code :", reviewedCode);
     console.log("Summary: ", summary);
