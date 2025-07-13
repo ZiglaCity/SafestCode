@@ -1,12 +1,30 @@
 interface ButtonType {
-    onSubmit? : () => void
+  onSubmit : () => void
+  isLoading: boolean;
+  selected: string[];
 }
-const SubmitButton = ({onSubmit} : ButtonType) => {
-    return (
-        <button onClick={onSubmit} className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-            Submit Code
-        </button>
-    )
+const SubmitButton = ({onSubmit, isLoading, selected } : ButtonType) => {
+  const handleSubmit = () => {
+    if (!selected) {
+      console.error("Please select a task to be peformed");
+      return;
+    }
+    onSubmit();
+  };
+
+  return (
+    <button
+      onClick={handleSubmit}
+      disabled={!selected || isLoading}
+      className={`w-full py-2 rounded-md font-medium text-white px-4 bg-blue-600 hover:bg-blue-700 ${
+      isLoading || !selected
+          ? 'bg-dev-accent/50 cursor-not-allowed'
+          : 'bg-dev-accent hover:bg-dev-accent-muted'
+      }`}
+    >
+      {isLoading ? 'Analyzing...' : 'Analyze Code'}
+    </button>
+  )
 }
 
 export default SubmitButton;

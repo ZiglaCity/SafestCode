@@ -13,13 +13,18 @@ function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
   const [language, setLanguage] = useState<string>("javascript");
   const [summary, setSummary] = useState<string[]>([]);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleCodeChange = (updatedCode: string | undefined) => {
     setCode(updatedCode || "");
   };
 
   const handleSubmit = async () => {
+    if(!code || code === "// Start typing your code here..."){
+      console.error("Pls enter code to be anyalyzed...");
+      return
+    }
+    setIsLoading(true);
     const body = {
       code,
       mode : selectedModes.join(","),
@@ -40,18 +45,19 @@ function App() {
     console.log("Summary: ", summary);
     setCode(reviewedCode);
     console.log(result);
+    setIsLoading(false);
   };
 
   return (
-    <div className="flex space-y-4">
+    <div className="flex space-y-1 gap-3">
       <div className='w-screen'>
         <LanguageSelector setLanguage={setLanguage} />
         <CodeEditor value={code} onChange={handleCodeChange} language={language} />
         { summary.length > 0 && <ResultPanel result={summary}/>}
       </div>
       <div> 
-        <SubmitOptions checked={selectedModes} onCheck={setSelectedModes} />
-        <SubmitButton onSubmit={handleSubmit} />
+        <SubmitOptions selected={selectedModes} setSelectedTasks={setSelectedModes} />
+        <SubmitButton onSubmit={handleSubmit}selected={selectedModes} isLoading={isLoading} />
       </div>
     </div>
   );

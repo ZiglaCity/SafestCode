@@ -1,42 +1,82 @@
-interface Props {
-    checked : string[],
-    onCheck : (check : string[]) => void
+interface AITaskPanelProps {
+  selected: string[];
+  setSelectedTasks: (tasks: string[])  => void;
 }
 
-export default function SubmitOptions ({checked, onCheck} : Props) {
+const tasks = [
+  {
+    id: 'review',
+    title: 'Review Code',
+    description: 'Get comprehensive code review suggestions',
+    color: 'bg-blue-100 text-blue-600 border-blue-200'
+  },
+  {
+    id: 'security',
+    title: 'Scan for Vulnerabilities',
+    description: 'Identify potential security issues',
+    color: 'bg-yellow-100 text-yellow-600 border-yellow-200'
+  },
+  {
+    id: 'debug',
+    title: 'Debug Error',
+    description: 'Find and fix bugs in your code',
+    color: 'bg-red-100 text-red-600 border-red-200'
+  }
+];
 
-    interface OptionType {
-        label : string,
-        value : string
-    }
-    const options : OptionType[] = [
-        {label : "Review", value : "review"},
-        {label : "Debug", value : "debug"},
-        {label : "Secure", value : "secure"},
-    ]
+const SubmitOptions: React.FC<AITaskPanelProps> = ({ selected, setSelectedTasks }) => {
 
-    const handleChange = (value: string) => {
-    const newChecked = checked.includes(value)
-        ? checked.filter(opt => opt !== value)
-        : [...checked, value];
+  const handleClick = (value : string) => {
+    const newSelected = selected.includes(value) 
+    ? selected.filter(task => task !== value)
+    : [...selected, value];
+    
+    setSelectedTasks(newSelected);
+    console.log("New Selected: ", newSelected);
+  }
 
-    onCheck(newChecked);
-    };
+  return (
+    <div className="dev-surface border border-dev-border rounded-lg p-4 space-y-6">
+      <div>
+        <h3 className="text-xl font-semibold text-dev-text mb-2 text-center">SafestCode Analysis</h3>
+        <p className="text-sm dev-text-muted text-center">
+          Select a task to analyze your code and get intelligent suggestions.
+        </p>
+      </div>
 
-    return (
-        <div>
-            <h1>Code Review & Debugging Tool</h1>
-            {options.map(option => (
-                <label key={option.value} className="block ml-0">
-                    <input
-                        type="checkbox"
-                        value={option.value}
-                        checked={checked.includes(option.value)}
-                        onChange={() => handleChange(option.value)}
-                    />
-                    {option.label}
-                </label>
-            ))}
-        </div>
-    )
-}
+      <div className="space-y-3">
+        {tasks.map((task) => {
+          const isSelected = selected.includes(task.id);
+
+          return (
+            <div
+              key={task.id}
+              onClick={() => handleClick(task.id)}
+              className={`cursor-pointer p-4 rounded-lg border transition-all duration-200 ${
+                isSelected
+                  ? 'border-dev-accent bg-dev-accent/5'
+                  : 'border-dev-border hover:border-dev-accent/50'
+              }`}
+            >
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-sm font-medium text-dev-text">{task.title}</h3>
+                  <p className="text-xs text-dev-text-muted mt-1">{task.description}</p>
+                </div>
+                {isSelected && (
+                  <span
+                    className={`px-2 py-0.5 text-xs rounded border font-medium ${task.color}`}
+                  >
+                    Selected
+                  </span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+export default SubmitOptions;

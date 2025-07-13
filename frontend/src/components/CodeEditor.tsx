@@ -9,6 +9,9 @@ interface Props {
 export default function CodeEditor({ language, value, onChange }: Props) {
 
   const handleEditorChange = (value: string | undefined) => {
+    if (value?.trim() === "// Start typing your code here..." ){
+      value = "";
+    }
     onChange?.(value);
   };
 
