@@ -37,7 +37,7 @@ function App() {
     console.log("Reviewed code: ", reviewedCode)
     if (reviewedCode ){
       reviewedCode = extractCodeBlock(reviewedCode);
-      const { codeBlock, summaryLines } = extractSummary(reviewedCode);
+      const { codeBlock, summaryLines } = extractSummary(reviewedCode, language);
       reviewedCode = codeBlock.trim();
       setSummary(summaryLines);
     }
