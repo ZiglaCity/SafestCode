@@ -5,13 +5,12 @@ import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
 import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
-import LanguageSelector from './components/LanguageSelector';
 import ResultPanel from './components/ResultPanel';
 
 function App() {
-  const [code, setCode] = useState("// Start typing your code here...");
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
   const [language, setLanguage] = useState<string>("javascript");
+  const [code, setCode] = useState(language !== "python" ? "// Start typing your code here..." : "# Start typing your code here...");
   const [summary, setSummary] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -49,17 +48,34 @@ function App() {
   };
 
   return (
-    <div className="flex space-y-1 gap-3">
-      <div className='w-screen'>
-        <LanguageSelector setLanguage={setLanguage} />
-        <CodeEditor value={code} onChange={handleCodeChange} language={language} />
-        { summary.length > 0 && <ResultPanel result={summary}/>}
+  <div className="flex flex-col lg:flex-row gap-6 w-full px-4 py-6">
+    <div className="flex-1 space-y-4">
+      <div className="w-full">
+        <CodeEditor
+          value={code}
+          onChange={handleCodeChange}
+          language={language}
+          setLanguage={setLanguage}
+        />
       </div>
-      <div> 
-        <SubmitOptions selected={selectedModes} setSelectedTasks={setSelectedModes} />
-        <SubmitButton onSubmit={handleSubmit}selected={selectedModes} isLoading={isLoading} />
-      </div>
+      {summary.length > 0 && (
+        <ResultPanel result={summary} />
+      )}
     </div>
+
+    <div className="lg:w-1/4 w-full space-y-4">
+      <SubmitOptions
+        selected={selectedModes}
+        setSelectedTasks={setSelectedModes}
+      />
+      <SubmitButton
+        onSubmit={handleSubmit}
+        selected={selectedModes}
+        isLoading={isLoading}
+      />
+    </div>
+  </div>
+
   );
 }
 

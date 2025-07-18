@@ -1,3 +1,5 @@
+import { FileCode, Search, Settings } from 'lucide-react';
+
 interface AITaskPanelProps {
   selected: string[];
   setSelectedTasks: (tasks: string[])  => void;
@@ -8,19 +10,22 @@ const tasks = [
     id: 'review',
     title: 'Review Code',
     description: 'Get comprehensive code review suggestions',
-    color: 'bg-blue-100 text-blue-600 border-blue-200'
+    color: 'bg-blue-100 text-blue-600 border-blue-200',
+    icon: FileCode
   },
   {
     id: 'security',
     title: 'Scan for Vulnerabilities',
     description: 'Identify potential security issues',
-    color: 'bg-yellow-100 text-yellow-600 border-yellow-200'
+    color: 'bg-yellow-100 text-yellow-600 border-yellow-200',
+    icon: Search,
   },
   {
     id: 'debug',
     title: 'Debug Error',
     description: 'Find and fix bugs in your code',
-    color: 'bg-red-100 text-red-600 border-red-200'
+    color: 'bg-red-100 text-red-600 border-red-200',
+    icon: Settings
   }
 ];
 
@@ -36,7 +41,7 @@ const SubmitOptions: React.FC<AITaskPanelProps> = ({ selected, setSelectedTasks 
   }
 
   return (
-    <div className="dev-surface border border-dev-border rounded-lg p-4 space-y-6">
+    <div className="w-auto dev-surface border border-dev-border rounded-lg p-4 space-y-6">
       <div>
         <h3 className="text-xl font-semibold text-dev-text mb-2 text-center">SafestCode Analysis</h3>
         <p className="text-sm dev-text-muted text-center">
@@ -47,6 +52,7 @@ const SubmitOptions: React.FC<AITaskPanelProps> = ({ selected, setSelectedTasks 
       <div className="space-y-3">
         {tasks.map((task) => {
           const isSelected = selected.includes(task.id);
+          const Icon = task.icon;
 
           return (
             <div
@@ -58,6 +64,7 @@ const SubmitOptions: React.FC<AITaskPanelProps> = ({ selected, setSelectedTasks 
                   : 'border-dev-border hover:border-dev-accent/50'
               }`}
             >
+              <Icon className="w-4 h-4" />
               <div className="flex justify-between items-center">
                 <div>
                   <h3 className="text-sm font-medium text-dev-text">{task.title}</h3>

@@ -13,4 +13,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --dev-bg: 216 18% 12%;
+  --dev-surface: 217 19% 15%;
+  --dev-border: 217 15% 20%;
+  --dev-text: 214 32% 91%;
+  --dev-text-muted: 214 15% 65%;
+  --dev-accent: 217 91% 60%;
+  --dev-accent-muted: 217 71% 53%;
+  --dev-success: 142 71% 45%;
+  --dev-warning: 48 96% 53%;
+  --dev-error: 0 84% 60%;
 }
