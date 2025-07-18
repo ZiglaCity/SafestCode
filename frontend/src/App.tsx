@@ -13,6 +13,7 @@ function App() {
   const [code, setCode] = useState(language !== "python" ? "// Start typing your code here..." : "# Start typing your code here...");
   const [summary, setSummary] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showSummary, setShowSummary] = useState<boolean>(false);
 
   const handleCodeChange = (updatedCode: string | undefined) => {
     setCode(updatedCode || "");
@@ -39,6 +40,9 @@ function App() {
       const { codeBlock, summaryLines } = extractSummary(reviewedCode, language);
       reviewedCode = codeBlock.trim();
       setSummary(summaryLines);
+      if(summary){
+        setShowSummary(true);
+      }
     }
     console.log("New reviewed code :", reviewedCode);
     console.log("Summary: ", summary);
@@ -58,9 +62,6 @@ function App() {
           setLanguage={setLanguage}
         />
       </div>
-      {summary.length > 0 && (
-        <ResultPanel result={summary} />
-      )}
     </div>
 
     <div className="lg:w-1/4 w-full space-y-4">
@@ -73,6 +74,9 @@ function App() {
         selected={selectedModes}
         isLoading={isLoading}
       />
+      {summary.length > 0 && showSummary && (
+        <ResultPanel result={summary} onClose={setShowSummary} /> 
+      )}
     </div>
   </div>
 
