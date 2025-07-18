@@ -48,7 +48,7 @@ function App() {
   };
 
   return (
-  <div className="flex flex-col lg:flex-row gap-6 w-full px-4 py-6">
+  <div className="flex flex-col lg:flex-row gap-6 w-full px-3 py-1">
     <div className="flex-1 space-y-4">
       <div className="w-full">
         <CodeEditor
