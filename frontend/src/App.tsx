@@ -60,6 +60,7 @@ function App() {
           onChange={handleCodeChange}
           language={language}
           setLanguage={setLanguage}
+          setCode={setCode}
         />
       </div>
     </div>

@@ -1,14 +1,16 @@
 import Editor from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
+import Clear from './Clear';
 
 interface Props {
   language: string;
   value?: string;
   onChange?: (value: string | undefined) => void;
   setLanguage: (language : string) => void;
+  setCode: (code : string) => void;
 }
 
-export default function CodeEditor({ language, value, onChange, setLanguage }: Props) {
+export default function CodeEditor({ language, value, onChange, setLanguage, setCode }: Props) {
 
   const extensions: Record<string, string> = {
     python: "py",
@@ -34,6 +36,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage }: P
           </div>
           <span className="text-sm dev-text-muted font-mono">main.{extensions[language]}</span>
         </div>
+        <Clear setCode={setCode} />
         <LanguageSelector setLanguage={setLanguage} />
       </div>
       <Editor
