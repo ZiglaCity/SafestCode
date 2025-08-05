@@ -55,6 +55,10 @@ function App() {
     // TODO: logic for removing comments depending on the lanuage...
   }
 
+  const saveFile = () => {
+// logic for file saving ...
+  }
+
   return (
   <div className="flex flex-col lg:flex-row gap-6 w-full px-3 py-1">
     <div className="flex-1 space-y-4">
@@ -66,6 +70,7 @@ function App() {
           setLanguage={setLanguage}
           setCode={setCode}
           removeComments={removeComments}
+          saveFile={saveFile}
         />
       </div>
     </div>
