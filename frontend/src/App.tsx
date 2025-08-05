@@ -59,6 +59,10 @@ function App() {
 // logic for file saving ...
   }
 
+  const copyCode = () => {
+    // copy code to clipboard
+  }
+ 
   return (
   <div className="flex flex-col lg:flex-row gap-6 w-full px-3 py-1">
     <div className="flex-1 space-y-4">
@@ -71,6 +75,7 @@ function App() {
           setCode={setCode}
           removeComments={removeComments}
           saveFile={saveFile}
+          copyCode={copyCode}
         />
       </div>
     </div>

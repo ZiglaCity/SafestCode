@@ -2,6 +2,7 @@ import Editor from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import Clear from './Clear';
 import Save from './Save'
+import Copy from "./Copy"
 import RemoveComments from "./RemoveComments";
 
 interface Props {
@@ -12,9 +13,10 @@ interface Props {
   setCode: (code : string) => void;
   removeComments : () => void;
   saveFile: () => void;
+  copyCode: () => void;
 }
 
-export default function CodeEditor({ language, value, onChange, setLanguage, setCode, removeComments, saveFile }: Props) {
+export default function CodeEditor({ language, value, onChange, setLanguage, setCode, removeComments, saveFile, copyCode }: Props) {
 
   const extensions: Record<string, string> = {
     python: "py",
@@ -42,6 +44,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
         </div>
         <div className="flex items-center">
           <Clear setCode={setCode} />
+          <Copy copyCode={copyCode} />
           <Save saveFile={saveFile} />
           <RemoveComments removeComments={removeComments} />
           <LanguageSelector setLanguage={setLanguage} />
