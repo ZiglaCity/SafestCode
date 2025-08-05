@@ -62,6 +62,10 @@ function App() {
   const copyCode = () => {
     // copy code to clipboard
   }
+
+  const cutCode = () => {
+    // just copy code and clear editor
+  }
  
   return (
   <div className="flex flex-col lg:flex-row gap-6 w-full px-3 py-1">
@@ -76,6 +80,7 @@ function App() {
           removeComments={removeComments}
           saveFile={saveFile}
           copyCode={copyCode}
+          cutCode={cutCode}
         />
       </div>
     </div>

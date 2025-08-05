@@ -5,7 +5,7 @@ interface Props {
 }
 
 
-export default function RemoveComments({saveFile} : Props){
+export default function Save({saveFile} : Props){
   return (
     <div>
       <button className="mx-3" onClick={()=>saveFile}>
