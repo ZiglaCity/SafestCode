@@ -1,6 +1,7 @@
 import Editor from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import Clear from './Clear';
+import RemoveComments from "./RemoveComments";
 
 interface Props {
   language: string;
@@ -8,9 +9,10 @@ interface Props {
   onChange?: (value: string | undefined) => void;
   setLanguage: (language : string) => void;
   setCode: (code : string) => void;
+  removeComments : () => void;
 }
 
-export default function CodeEditor({ language, value, onChange, setLanguage, setCode }: Props) {
+export default function CodeEditor({ language, value, onChange, setLanguage, setCode, removeComments }: Props) {
 
   const extensions: Record<string, string> = {
     python: "py",
@@ -27,7 +29,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
 
   return (
     <div className="h-[500px] dev-surface border rounded-lg">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-dev-border">
+      <div className="flex justify-between px-4 py-2 border-b border-dev-border">
         <div className="flex items-center space-x-2">
           <div className="flex space-x-2">
             <div className="w-3 h-3 rounded-full bg-red-600"></div>
@@ -36,8 +38,11 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
           </div>
           <span className="text-sm dev-text-muted font-mono">main.{extensions[language]}</span>
         </div>
-        <Clear setCode={setCode} />
-        <LanguageSelector setLanguage={setLanguage} />
+        <div className="flex items-center">
+          <Clear setCode={setCode} />
+          <RemoveComments removeComments={removeComments} />
+          <LanguageSelector setLanguage={setLanguage} />
+        </div>
       </div>
       <Editor
         height="100%"

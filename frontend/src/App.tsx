@@ -51,6 +51,10 @@ function App() {
     setIsLoading(false);
   };
 
+  const removeComments = () => {
+    // TODO: logic for removing comments depending on the lanuage...
+  }
+
   return (
   <div className="flex flex-col lg:flex-row gap-6 w-full px-3 py-1">
     <div className="flex-1 space-y-4">
@@ -61,6 +65,7 @@ function App() {
           language={language}
           setLanguage={setLanguage}
           setCode={setCode}
+          removeComments={removeComments}
         />
       </div>
     </div>
