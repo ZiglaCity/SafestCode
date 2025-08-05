@@ -8,7 +8,7 @@ interface Props {
 export default function Copy({copyCode} : Props){
   return (
     <div>
-      <button title="Copy" className="mx-3" onClick={()=>copyCode}>
+      <button title="Copy" className="mx-3" onClick={copyCode}>
         <CopyIcon />
       </button>
     </div>

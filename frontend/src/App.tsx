@@ -6,6 +6,7 @@ import SubmitOptions from './components/SubmitOptions';
 import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
+import { Clipboard } from 'lucide-react';
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
@@ -59,12 +60,23 @@ function App() {
 // logic for file saving ...
   }
 
-  const copyCode = () => {
-    // copy code to clipboard
+  const copyCode = async () => {
+    try {
+      console.log("Copying to clipboard...")
+      await navigator.clipboard.writeText(code);
+      console.log("Copied to clipboard:", code);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }  
   }
 
-  const cutCode = () => {
-    // just copy code and clear editor
+  const cutCode = async () => {
+    try{
+      copyCode();
+      setCode("");
+    } catch (err){
+      console.log("Failed to cut: ", err)
+    }
   }
  
   return (
