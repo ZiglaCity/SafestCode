@@ -8,7 +8,7 @@ interface Props {
 export default function Cut({cutCode} : Props){
   return (
     <div>
-      <button className="mx-3" onClick={()=>cutCode}>
+      <button title="Cut" className="mx-3" onClick={()=>cutCode}>
         <ScissorsIcon />
       </button>
     </div>

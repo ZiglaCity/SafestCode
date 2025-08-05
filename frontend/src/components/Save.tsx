@@ -8,7 +8,7 @@ interface Props {
 export default function Save({saveFile} : Props){
   return (
     <div>
-      <button className="mx-3" onClick={()=>saveFile}>
+      <button title="Save" className="mx-3" onClick={()=>saveFile}>
         <SaveIcon />
       </button>
     </div>

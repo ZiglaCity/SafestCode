@@ -9,7 +9,7 @@ export default function Clear({setCode} : Props){
 
   return (
     <div>
-      <button className="mx-3" onClick={()=>setCode("")}>
+      <button title="Clear" className="mx-3" onClick={()=>setCode("")}>
         <BrushCleaningIcon />
       </button>
     </div>
