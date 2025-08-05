@@ -8,7 +8,7 @@ interface Props {
 export default function RemoveComments({saveFile} : Props){
   return (
     <div>
-      <button className="" onClick={()=>saveFile}>
+      <button className="mx-3" onClick={()=>saveFile}>
         <SaveIcon />
       </button>
     </div>
