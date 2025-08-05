@@ -6,6 +6,7 @@ import SubmitOptions from './components/SubmitOptions';
 import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
+import { extensions, mimeTypes } from './utils/extensions';
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
@@ -51,6 +52,50 @@ function App() {
     setIsLoading(false);
   };
 
+  const removeComments = () => {
+    // TODO: logic for removing comments depending on the lanuage...
+  }
+
+  const saveFile = () => {
+    const fileContent = code;
+    const fileType = mimeTypes[language] || "text/plain";
+    const extension = extensions[language];
+    const fileName = `main.${extension}`;
+    console.log("File type", fileType)
+
+    const blob = new Blob([fileContent], { type: fileType });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    console.log("Code file saved as", fileName);
+  };
+
+  const copyCode = async () => {
+    try {
+      console.log("Copying to clipboard...")
+      await navigator.clipboard.writeText(code);
+      console.log("Copied to clipboard:", code);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }  
+  }
+
+  const cutCode = async () => {
+    try{
+      copyCode();
+      setCode("");
+    } catch (err){
+      console.log("Failed to cut: ", err)
+    }
+  }
+ 
   return (
   <div className="flex flex-col lg:flex-row gap-6 w-full px-3 py-1">
     <div className="flex-1 space-y-4">
@@ -60,6 +105,11 @@ function App() {
           onChange={handleCodeChange}
           language={language}
           setLanguage={setLanguage}
+          setCode={setCode}
+          removeComments={removeComments}
+          saveFile={saveFile}
+          copyCode={copyCode}
+          cutCode={cutCode}
         />
       </div>
     </div>

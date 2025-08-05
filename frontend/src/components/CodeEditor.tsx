@@ -1,14 +1,24 @@
 import Editor from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
+import Clear from './Clear';
+import Save from './Save';
+import Copy from "./Copy";
+import Cut from './Cut';
+import RemoveComments from "./RemoveComments";
 
 interface Props {
   language: string;
   value?: string;
   onChange?: (value: string | undefined) => void;
   setLanguage: (language : string) => void;
+  setCode: (code : string) => void;
+  removeComments : () => void;
+  saveFile: () => void;
+  copyCode: () => void;
+  cutCode: () => void;
 }
 
-export default function CodeEditor({ language, value, onChange, setLanguage }: Props) {
+export default function CodeEditor({ language, value, onChange, setLanguage, setCode, removeComments, saveFile, copyCode, cutCode }: Props) {
 
   const extensions: Record<string, string> = {
     python: "py",
@@ -25,7 +35,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage }: P
 
   return (
     <div className="h-[500px] dev-surface border rounded-lg">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-dev-border">
+      <div className="flex justify-between px-4 py-2 border-b border-dev-border">
         <div className="flex items-center space-x-2">
           <div className="flex space-x-2">
             <div className="w-3 h-3 rounded-full bg-red-600"></div>
@@ -34,7 +44,14 @@ export default function CodeEditor({ language, value, onChange, setLanguage }: P
           </div>
           <span className="text-sm dev-text-muted font-mono">main.{extensions[language]}</span>
         </div>
-        <LanguageSelector setLanguage={setLanguage} />
+        <div className="flex items-center">
+          <Clear setCode={setCode} />
+          <Cut cutCode={cutCode} />
+          <Copy copyCode={copyCode} />
+          <Save saveFile={saveFile} />
+          <RemoveComments removeComments={removeComments} />
+          <LanguageSelector setLanguage={setLanguage} />
+        </div>
       </div>
       <Editor
         height="100%"
