@@ -6,7 +6,7 @@ import SubmitOptions from './components/SubmitOptions';
 import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
-import { Clipboard } from 'lucide-react';
+import { extensions, mimeTypes } from './utils/extensions';
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
@@ -57,8 +57,25 @@ function App() {
   }
 
   const saveFile = () => {
-// logic for file saving ...
-  }
+    const fileContent = code;
+    const fileType = mimeTypes[language] || "text/plain";
+    const extension = extensions[language];
+    const fileName = `main.${extension}`;
+    console.log("File type", fileType)
+
+    const blob = new Blob([fileContent], { type: fileType });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    console.log("Code file saved as", fileName);
+  };
 
   const copyCode = async () => {
     try {
