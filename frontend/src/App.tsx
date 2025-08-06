@@ -7,7 +7,7 @@ import SubmitOptions from './components/SubmitOptions';
 import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
 import { extensions, mimeTypes } from './utils/extensions';
-import {Analyzer} from "../api/analyzer"
+import {Analyzer} from "./api/analyzer"
 
 
 function App() {
