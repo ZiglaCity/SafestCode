@@ -15,7 +15,6 @@ type GeminiResponse = {
 };
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
-console.log("API: ", apiKey);
 
 if (!apiKey) {
   throw new Error("VITE_GEMINI_API_KEY is not defined.");
