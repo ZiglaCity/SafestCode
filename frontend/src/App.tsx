@@ -3,10 +3,12 @@ import './App.css'
 import CodeEditor from './components/CodeEditor'
 import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
-import { submitRequest } from './utils/sendCodeRequest';
+// import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
 import { extensions, mimeTypes } from './utils/extensions';
+import {Analyzer} from "../api/analyzer"
+
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(["review"]);
@@ -33,8 +35,10 @@ function App() {
     }
     
     console.log("Submitted code:", body);
-    const result = await submitRequest(body);
-    let reviewedCode = result?.code;
+    const result = await Analyzer(body);
+    
+    console.log(result);
+    let reviewedCode = result.data;
     console.log("Reviewed code: ", reviewedCode)
     if (reviewedCode ){
       reviewedCode = extractCodeBlock(reviewedCode);
@@ -47,7 +51,7 @@ function App() {
     }
     console.log("New reviewed code :", reviewedCode);
     console.log("Summary: ", summary);
-    setCode(reviewedCode);
+    setCode(reviewedCode || code);
     console.log(result);
     setIsLoading(false);
   };
