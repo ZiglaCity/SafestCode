@@ -1,4 +1,4 @@
-import { generatePrompt } from "../src/utils/generatePrompt";
+import { generatePrompt } from "../utils/generatePrompt";
 
 type AnalyzerProps = {
   code: string;
