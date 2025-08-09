@@ -9,6 +9,7 @@ import ResultPanel from './components/ResultPanel';
 import { extensions, mimeTypes } from './utils/extensions';
 import {Analyzer} from "./api/analyzer"
 import { removeCommentsFromCode } from './utils/removeComments';
+import { saveFile } from './utils/saveFile';
 
 
 function App() {
@@ -63,25 +64,8 @@ function App() {
     // TODO: logic for removing comments depending on the lanuage...
   }
 
-  const saveFile = () => {
-    const fileContent = code;
-    const fileType = mimeTypes[language] || "text/plain";
-    const extension = extensions[language];
-    const fileName = `main.${extension}`;
-    console.log("File type", fileType)
-
-    const blob = new Blob([fileContent], { type: fileType });
-    const url = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-
-    console.log("Code file saved as", fileName);
+  const handleSave = () => {
+   saveFile(code, language);
   };
 
   const copyCode = async () => {
@@ -114,7 +98,7 @@ function App() {
           setLanguage={setLanguage}
           setCode={setCode}
           removeComments={removeComments}
-          saveFile={saveFile}
+          saveFile={handleSave}
           copyCode={copyCode}
           cutCode={cutCode}
         />
