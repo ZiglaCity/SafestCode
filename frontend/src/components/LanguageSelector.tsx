@@ -8,7 +8,6 @@ const languages : Record<string, string> = {
   python : "Python", 
 }
 
-
 const LanguageSelector = ( {setLanguage} : Props) => {
   const handleChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
     setLanguage(event.target.value);
