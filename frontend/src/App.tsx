@@ -59,9 +59,8 @@ function App() {
   };
 
   const removeComments = () => {
-    const clean_code = removeCommentsFromCode(code, language);
+    const clean_code = removeCommentsFromCode("\n" +code, language);
     setCode(clean_code);
-    // TODO: logic for removing comments depending on the lanuage...
   }
 
   const handleSave = () => {
