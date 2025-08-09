@@ -8,6 +8,7 @@ import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
 import { extensions, mimeTypes } from './utils/extensions';
 import {Analyzer} from "./api/analyzer"
+import { removeCommentsFromCode } from './utils/removeComments';
 
 
 function App() {
@@ -57,6 +58,8 @@ function App() {
   };
 
   const removeComments = () => {
+    const clean_code = removeCommentsFromCode(code, language);
+    setCode(clean_code);
     // TODO: logic for removing comments depending on the lanuage...
   }
 
