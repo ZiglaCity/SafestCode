@@ -3,10 +3,8 @@ import './App.css'
 import CodeEditor from './components/CodeEditor'
 import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
-// import { submitRequest } from './utils/sendCodeRequest';
 import extractCodeBlock, {extractSummary} from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
-import { extensions, mimeTypes } from './utils/extensions';
 import {Analyzer} from "./api/analyzer"
 import { removeCommentsFromCode } from './utils/removeComments';
 import { saveFile } from './utils/saveFile';
@@ -60,7 +58,7 @@ function App() {
 
   const removeComments = () => {
     const clean_code = removeCommentsFromCode("\n" +code, language);
-    setCode(clean_code);
+    setCode(clean_code.trim());
   }
 
   const handleSave = () => {
