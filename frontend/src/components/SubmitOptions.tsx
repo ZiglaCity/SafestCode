@@ -49,7 +49,7 @@ const SubmitOptions: React.FC<AITaskPanelProps> = ({ selected, setSelectedTasks 
         </p>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {tasks.map((task) => {
           const isSelected = selected.includes(task.id);
           const Icon = task.icon;
@@ -64,19 +64,29 @@ const SubmitOptions: React.FC<AITaskPanelProps> = ({ selected, setSelectedTasks 
                   : 'border-dev-border hover:border-dev-accent/50'
               }`}
             >
-              <Icon className="w-4 h-4" />
-              <div className="flex justify-between items-center">
+              <div className="flex flex-col">
+                <div className='flex justify-between'>
+                  <div className='flex justify-baseline items-center'>
+                    <div>
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-dev-text">{task.title}</h3>
+                    </div>
+                  </div>
+                  <div>
+                  {isSelected && (
+                    <span
+                    className={`px-2 py-0.5 text-xs rounded border font-medium ${task.color}`}
+                    >
+                      Selected
+                    </span>
+                  )}
+                  </div>
+                </div>
                 <div>
-                  <h3 className="text-sm font-medium text-dev-text">{task.title}</h3>
                   <p className="text-xs text-dev-text-muted mt-1">{task.description}</p>
                 </div>
-                {isSelected && (
-                  <span
-                    className={`px-2 py-0.5 text-xs rounded border font-medium ${task.color}`}
-                  >
-                    Selected
-                  </span>
-                )}
               </div>
             </div>
           );
