@@ -1,4 +1,4 @@
-import { Trash2 } from "lucide-react";
+import { Code2Icon } from "lucide-react";
 
 interface Props {
   removeComments: () => void;
@@ -15,7 +15,7 @@ export default function RemoveComments({ removeComments }: Props) {
                    dark:bg-gray-800 dark:hover:bg-gray-700 
                    transition-colors duration-200 shadow-sm border border-gray-300 dark:border-gray-700"
       >
-        <Trash2 className="w-5 h-5 text-gray-700 dark:text-gray-200" />
+        <Code2Icon className="w-5 h-5 text-gray-700 dark:text-gray-200" />
       </button>
     </div>
   );
