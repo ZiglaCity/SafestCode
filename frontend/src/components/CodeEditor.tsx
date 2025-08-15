@@ -58,7 +58,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
         language={language}
         value={value}
         onChange={handleEditorChange}
-        theme="vs-dark"
+        theme="light"
         options={{
           minimap: { enabled: false },
           fontSize: 14,

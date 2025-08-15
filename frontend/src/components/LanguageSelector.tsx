@@ -18,7 +18,10 @@ const LanguageSelector = ( {setLanguage} : Props) => {
       <select
         id="language"
         onChange={handleChange}
-        className="px-3 py-1.5 text-sm border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white text-gray-800"
+        className="px-3 py-1.5 text-sm border hover:bg-gray-200 dark:bg-gray-800
+         dark:hover:bg-gray-700 dark:text-white transition-colors duration-200
+         border-gray-300 dark:border-gray-700 rounded-lg shadow-sm focus:outline-none
+          focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-800"
       >
         {Object.entries(languages).map(([key, value]) => (
           <option key={key} value={key}>

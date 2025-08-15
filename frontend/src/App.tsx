@@ -85,7 +85,7 @@ function App() {
   }
  
   return (
-  <div className="flex flex-col lg:flex-row gap-6 w-full px-3 py-1">
+  <div className="flex flex-col lg:flex-row bg-white text-black dark:bg-[#242424] dark:text-white gap-6 w-full px-3 py-1">
     <div className="flex-1 space-y-4">
       <div className="w-full">
         <CodeEditor
