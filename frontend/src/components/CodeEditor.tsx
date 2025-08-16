@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import Editor from "@monaco-editor/react";
 import LanguageSelector from "./LanguageSelector";
 import Clear from './Clear';
@@ -19,6 +20,22 @@ interface Props {
 }
 
 export default function CodeEditor({ language, value, onChange, setLanguage, setCode, removeComments, saveFile, copyCode, cutCode }: Props) {
+
+  const [theme, setTheme] = useState('vs-light');
+
+  useEffect(() => {
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+    const updateTheme = () => {
+      setTheme(darkModeQuery.matches ? 'vs-dark' : 'vs-light');
+    };
+
+    updateTheme();
+
+    darkModeQuery.addEventListener('change', updateTheme);
+
+    return () => darkModeQuery.removeEventListener('change', updateTheme);
+  }, []);
 
   const extensions: Record<string, string> = {
     python: "py",
@@ -58,7 +75,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
         language={language}
         value={value}
         onChange={handleEditorChange}
-        theme="light"
+        theme={theme}
         options={{
           minimap: { enabled: false },
           fontSize: 14,
