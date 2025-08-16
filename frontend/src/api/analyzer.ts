@@ -1,4 +1,4 @@
-import { generatePrompt } from "../utils/generatePrompt";
+import { generatePrompt } from '../utils/generatePrompt';
 
 type AnalyzerProps = {
   code: string;
@@ -9,7 +9,9 @@ type AnalyzerProps = {
 type GeminiResponse = {
   candidates?: {
     content?: {
-      parts?: { text?: string }[];
+      parts?: {
+        text?: string;
+      }[];
     };
   }[];
 };
@@ -17,27 +19,43 @@ type GeminiResponse = {
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
 if (!apiKey) {
-  throw new Error("VITE_GEMINI_API_KEY is not defined.");
+  throw new Error('VITE_GEMINI_API_KEY is not defined.');
 }
 
 export async function Analyzer({ code, language, mode }: AnalyzerProps) {
-  console.log("Analyzer triggered...");
-  console.log({ code, language, mode });
+  console.log('Analyzer triggered...');
+  console.log({
+    code,
+    language,
+    mode,
+  });
 
-  const prompt = generatePrompt({ code, language, mode });
-  console.log("Prompt generated:", prompt);
+  const prompt = generatePrompt({
+    code,
+    language,
+    mode,
+  });
+  console.log('Prompt generated:', prompt);
 
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${apiKey}`;
 
   const requestBody = {
-    contents: [{ parts: [{ text: prompt }] }],
+    contents: [
+      {
+        parts: [
+          {
+            text: prompt,
+          },
+        ],
+      },
+    ],
   };
 
   try {
     const response = await fetch(endpoint, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(requestBody),
     });
@@ -50,25 +68,25 @@ export async function Analyzer({ code, language, mode }: AnalyzerProps) {
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
 
     if (!text) {
-      console.warn("No text returned from Gemini.");
+      console.warn('No text returned from Gemini.');
       return {
         success: false,
-        error: "No response content received from Gemini.",
+        error: 'No response content received from Gemini.',
       };
     }
 
-    console.log("Gemini response received:", text);
+    console.log('Gemini response received:', text);
 
     return {
       success: true,
       data: text,
-      source: "gemini",
+      source: 'gemini',
     };
   } catch (error: any) {
-    console.error(" Gemini call failed:", error.message || error);
+    console.error(' Gemini call failed:', error.message || error);
     return {
       success: false,
-      error: "Gemini API call failed. Please try again.",
+      error: 'Gemini API call failed. Please try again.',
     };
   }
 }

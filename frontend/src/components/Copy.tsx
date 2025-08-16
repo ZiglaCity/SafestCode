@@ -1,4 +1,4 @@
-import { CopyIcon } from "lucide-react";
+import { CopyIcon } from 'lucide-react';
 
 interface Props {
   copyCode: () => void;

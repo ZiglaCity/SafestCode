@@ -11,26 +11,29 @@ export function extractSummary(
   summaryLines: string[];
 } {
   const [codeBlock, rawSummary] =
-    language !== "python"
-      ? responseText.split("// Summary of changes:")
-      : responseText.split("# Summary of changes:");
+    language !== 'python'
+      ? responseText.split('// Summary of changes:')
+      : responseText.split('# Summary of changes:');
 
-  console.log("Raw Summary: ", rawSummary);
+  console.log('Raw Summary: ', rawSummary);
   const summaryLines = rawSummary
-    ? language !== "python"
+    ? language !== 'python'
       ? rawSummary
-          .split("\n")
+          .split('\n')
           .map((line) => line.trim())
           .filter((line) => /^\/\/\s*\d+\./.test(line)) // only keep numbered comment lines
-          .map((line) => line.replace(/^\/\/\s*\d+\.\s*/, "")) // remove leading `// [number].`
+          .map((line) => line.replace(/^\/\/\s*\d+\.\s*/, '')) // remove leading `// [number].`
           .slice(0, 4)
       : rawSummary
-          .split("\n")
+          .split('\n')
           .map((line) => line.trim())
           .filter((line) => /^#\s*\d+\./.test(line)) // only keep numbered comment lines like `# 1. ...`
-          .map((line) => line.replace(/^#\s*\d+\.\s*/, "")) // remove leading `# [number].`
+          .map((line) => line.replace(/^#\s*\d+\.\s*/, '')) // remove leading `# [number].`
           .slice(0, 4)
     : [];
 
-  return { codeBlock, summaryLines };
+  return {
+    codeBlock,
+    summaryLines,
+  };
 }

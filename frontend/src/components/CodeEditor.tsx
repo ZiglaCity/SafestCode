@@ -1,30 +1,39 @@
-import { useEffect, useState } from "react";
-import Editor from "@monaco-editor/react";
-import LanguageSelector from "./LanguageSelector";
+import { useEffect, useState } from 'react';
+import Editor from '@monaco-editor/react';
+import LanguageSelector from './LanguageSelector';
 import Clear from './Clear';
 import Save from './Save';
-import Copy from "./Copy";
+import Copy from './Copy';
 import Cut from './Cut';
-import Zoom from "./Zoom";
-import RemoveComments from "./RemoveComments";
+import Zoom from './Zoom';
+import RemoveComments from './RemoveComments';
 
 interface Props {
   language: string;
   value?: string;
   onChange?: (value: string | undefined) => void;
-  setLanguage: (language : string) => void;
-  setCode: (code : string) => void;
-  removeComments : () => void;
+  setLanguage: (language: string) => void;
+  setCode: (code: string) => void;
+  removeComments: () => void;
   saveFile: () => void;
   copyCode: () => void;
   cutCode: () => void;
 }
 
-export default function CodeEditor({ language, value, onChange, setLanguage, setCode, removeComments, saveFile, copyCode, cutCode }: Props) {
-
+export default function CodeEditor({
+  language,
+  value,
+  onChange,
+  setLanguage,
+  setCode,
+  removeComments,
+  saveFile,
+  copyCode,
+  cutCode,
+}: Props) {
   const [theme, setTheme] = useState('vs-light');
   const [fontSize, setFontSize] = useState(14);
- 
+
   useEffect(() => {
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -40,14 +49,14 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
   }, []);
 
   const extensions: Record<string, string> = {
-    python: "py",
-    typescript: "ts",
-    javascript: "js",
+    python: 'py',
+    typescript: 'ts',
+    javascript: 'js',
   };
-  
+
   const handleEditorChange = (value: string | undefined) => {
-    if (value?.trim() === "// Start typing your code here..." ){
-      value = "";
+    if (value?.trim() === '// Start typing your code here...') {
+      value = '';
     }
     onChange?.(value);
   };
@@ -61,10 +70,13 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
             <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
-          <span className="text-sm dev-text-muted font-mono">main.{extensions[language]}</span>
+          <span className="text-sm dev-text-muted font-mono">
+            main.
+            {extensions[language]}
+          </span>
         </div>
         <div className="flex items-center">
-          <Zoom setFontSize={setFontSize}/>
+          <Zoom setFontSize={setFontSize} />
           <Clear setCode={setCode} />
           <Cut cutCode={cutCode} />
           <Copy copyCode={copyCode} />
@@ -80,14 +92,18 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
         onChange={handleEditorChange}
         theme={theme}
         options={{
-          minimap: { enabled: false },
+          minimap: {
+            enabled: false,
+          },
           fontSize: fontSize,
           fontFamily: 'JetBrains Mono, Fira Code, Consolas, monospace',
           lineNumbers: 'on',
           wordWrap: 'on',
           automaticLayout: true,
           scrollBeyondLastLine: false,
-          padding: { top: 16 },
+          padding: {
+            top: 16,
+          },
           renderLineHighlight: 'all',
           selectOnLineNumbers: true,
           matchBrackets: 'always',

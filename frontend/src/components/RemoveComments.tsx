@@ -1,4 +1,4 @@
-import { Code2Icon } from "lucide-react";
+import { Code2Icon } from 'lucide-react';
 
 interface Props {
   removeComments: () => void;

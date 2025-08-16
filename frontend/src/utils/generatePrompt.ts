@@ -5,7 +5,7 @@ interface Props {
 }
 
 export function generatePrompt({ code, mode, language }: Props): string {
-  const modes = mode.split(",").map((m) => m.trim().toLowerCase());
+  const modes = mode.split(',').map((m) => m.trim().toLowerCase());
 
   let prompt = `You are an expert AI code assistant.\n`;
   prompt += `The user has submitted ${language} code that may contain issues. Your task is to analyze and improve it.\n\n`;
@@ -16,13 +16,13 @@ export function generatePrompt({ code, mode, language }: Props): string {
 
   for (const m of modes) {
     switch (m) {
-      case "review":
+      case 'review':
         prompt += `- Review the code for quality and best practices.\n`;
         break;
-      case "debug":
+      case 'debug':
         prompt += `- Identify and fix bugs (syntax, logical, runtime).\n`;
         break;
-      case "secure":
+      case 'secure':
         prompt += `- Check for security flaws and unsafe patterns.\n`;
         break;
       default:

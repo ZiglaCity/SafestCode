@@ -20,7 +20,7 @@ This frontend serves as the main interface where users:
 
 ## Features
 
-###  Core Working Features
+### Core Working Features
 
 - AI-powered prompt generation
 - Code editor with copy, cut, and clear options
@@ -29,7 +29,7 @@ This frontend serves as the main interface where users:
 - Gemini prompt builder abstracted via `utils/generatePrompt.ts`
 - Response output area for displaying Gemini results
 
-###  Recently Added (Logic Focus First)
+### Recently Added (Logic Focus First)
 
 - Copy code to clipboard
 - Cut selected code
@@ -58,7 +58,7 @@ This frontend serves as the main interface where users:
 cd frontend
 npm install
 npm run dev
-````
+```
 
 Create a `.env` file in `/frontend` and add your Gemini API key:
 
@@ -96,9 +96,9 @@ frontend/
 
 This repo is under rapid iteration. Current priorities:
 
-* Finalizing comment-removal logic with language support
-* Cleaning UI elements before styling
-* Preparing for Gemini proxying through a secure API route (Vercel Functions or backend)
+- Finalizing comment-removal logic with language support
+- Cleaning UI elements before styling
+- Preparing for Gemini proxying through a secure API route (Vercel Functions or backend)
 
 ---
 

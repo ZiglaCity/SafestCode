@@ -1,17 +1,17 @@
 interface Props {
-  setLanguage : (language : string) => void;
+  setLanguage: (language: string) => void;
 }
 
-const languages : Record<string, string> = {
-  javascript : "Javascript",
-  typescript : "Typescript",
-  python : "Python", 
-}
+const languages: Record<string, string> = {
+  javascript: 'Javascript',
+  typescript: 'Typescript',
+  python: 'Python',
+};
 
-const LanguageSelector = ( {setLanguage} : Props) => {
-  const handleChange = (event : React.ChangeEvent<HTMLSelectElement>) => {
+const LanguageSelector = ({ setLanguage }: Props) => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setLanguage(event.target.value);
-  }
+  };
 
   return (
     <div className="flex items-center gap-2">
