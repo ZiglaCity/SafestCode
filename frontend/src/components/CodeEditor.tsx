@@ -5,6 +5,7 @@ import Clear from './Clear';
 import Save from './Save';
 import Copy from "./Copy";
 import Cut from './Cut';
+import Zoom from "./Zoom";
 import RemoveComments from "./RemoveComments";
 
 interface Props {
@@ -22,7 +23,8 @@ interface Props {
 export default function CodeEditor({ language, value, onChange, setLanguage, setCode, removeComments, saveFile, copyCode, cutCode }: Props) {
 
   const [theme, setTheme] = useState('vs-light');
-
+  const [fontSize, setFontSize] = useState(14);
+ 
   useEffect(() => {
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -62,6 +64,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
           <span className="text-sm dev-text-muted font-mono">main.{extensions[language]}</span>
         </div>
         <div className="flex items-center">
+          <Zoom setFontSize={setFontSize}/>
           <Clear setCode={setCode} />
           <Cut cutCode={cutCode} />
           <Copy copyCode={copyCode} />
@@ -78,7 +81,7 @@ export default function CodeEditor({ language, value, onChange, setLanguage, set
         theme={theme}
         options={{
           minimap: { enabled: false },
-          fontSize: 14,
+          fontSize: fontSize,
           fontFamily: 'JetBrains Mono, Fira Code, Consolas, monospace',
           lineNumbers: 'on',
           wordWrap: 'on',
