@@ -60,7 +60,7 @@ export default function CodeEditor({
     );
 
   return (
-    <div className="dev-surface border rounded-lg flex flex-col h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[500px]">
+    <div className="dev-surface border rounded-lg flex flex-col h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[85vh] xl:h-[90vh]">
       <div className="flex justify-between items-center px-4 py-2 border-b border-gray-300 dark:border-gray-700">
         <div className="flex items-center gap-2">
           <div className="flex gap-2">
