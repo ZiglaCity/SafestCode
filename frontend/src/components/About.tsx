@@ -6,10 +6,7 @@ export default function About() {
   if (!open) return null;
 
   return (
-    <div
-      className="relative lg:absolute lg:bottom-6 lg:right-6 w-full max-w-sm lg:max-w-xs bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 shadow-xl rounded-xl p-5 text-sm text-zinc-300 animate-in fade-in duration-300
-      flex flex-col gap-4"
-    >
+    <div className="relative lg:absolute lg:bottom-6 lg:right-15 w-full max-w-sm lg:max-w-xs bg-gradient-to-br from-zinc-800 to-zinc-900 border border-zinc-700 shadow-xl rounded-xl p-5 text-sm text-zinc-300 animate-in fade-in duration-300 flex flex-col gap-4">
       <button
         onClick={() => setOpen(false)}
         className="absolute top-2 right-2 text-zinc-400 hover:text-white transition-colors"
