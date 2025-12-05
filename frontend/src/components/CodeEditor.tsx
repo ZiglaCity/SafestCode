@@ -36,15 +36,10 @@ export default function CodeEditor({
 
   useEffect(() => {
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-    const updateTheme = () => {
+    const updateTheme = () =>
       setTheme(darkModeQuery.matches ? 'vs-dark' : 'vs-light');
-    };
-
     updateTheme();
-
     darkModeQuery.addEventListener('change', updateTheme);
-
     return () => darkModeQuery.removeEventListener('change', updateTheme);
   }, []);
 
@@ -53,29 +48,28 @@ export default function CodeEditor({
     typescript: 'ts',
     javascript: 'js',
   };
-
-  const handleEditorChange = (value: string | undefined) => {
-    if (value?.trim() === '// Start typing your code here...') {
-      value = '';
-    }
-    onChange?.(value);
-  };
+  const handleEditorChange = (val: string | undefined) =>
+    onChange?.(
+      val?.trim() === '// Start typing your code here...' ||
+        val?.trim() === '# Start typing your code here...'
+        ? ''
+        : val
+    );
 
   return (
-    <div className="h-[500px] dev-surface border rounded-lg">
-      <div className="flex justify-between px-4 py-2 border-b border-dev-border">
-        <div className="flex items-center space-x-2">
-          <div className="flex space-x-2">
-            <div className="w-3 h-3 rounded-full bg-red-600"></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+    <div className="dev-surface border rounded-lg flex flex-col h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[500px]">
+      <div className="flex justify-between items-center px-4 py-2 border-b border-gray-300 dark:border-gray-700">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-2">
+            <span className="w-3 h-3 rounded-full bg-red-600"></span>
+            <span className="w-3 h-3 rounded-full bg-yellow-400"></span>
+            <span className="w-3 h-3 rounded-full bg-green-500"></span>
           </div>
-          <span className="text-sm dev-text-muted font-mono">
-            main.
-            {extensions[language]}
+          <span className="text-sm font-mono text-gray-600 dark:text-gray-400">
+            main.{extensions[language]}
           </span>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center gap-2">
           <Zoom setFontSize={setFontSize} />
           <Clear setCode={setCode} />
           <Cut cutCode={cutCode} />
@@ -85,6 +79,7 @@ export default function CodeEditor({
           <LanguageSelector setLanguage={setLanguage} />
         </div>
       </div>
+
       <Editor
         height="100%"
         language={language}
@@ -92,18 +87,14 @@ export default function CodeEditor({
         onChange={handleEditorChange}
         theme={theme}
         options={{
-          minimap: {
-            enabled: false,
-          },
-          fontSize: fontSize,
+          minimap: { enabled: false },
+          fontSize,
           fontFamily: 'JetBrains Mono, Fira Code, Consolas, monospace',
           lineNumbers: 'on',
           wordWrap: 'on',
           automaticLayout: true,
           scrollBeyondLastLine: false,
-          padding: {
-            top: 16,
-          },
+          padding: { top: 16 },
           renderLineHighlight: 'all',
           selectOnLineNumbers: true,
           matchBrackets: 'always',
