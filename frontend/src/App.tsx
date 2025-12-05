@@ -40,19 +40,19 @@ function App() {
   }, [language]);
 
   const handleSubmit = async () => {
+    const TOAST_ID = 'analyze-toast';
+
     if (
       !code ||
       code.trim() === '// Start typing your code here...' ||
       code.trim() === '# Start typing your code here...'
     ) {
-      console.error('Please enter code to be analyzed');
-      toast.error('Please enter code to be analyzed');
+      toast.dismiss(TOAST_ID);
+      toast.error('Please enter code to be analyzed', { toastId: TOAST_ID });
       return;
     }
 
-    toast.loading('Analyzing code, please wait...', {
-      toastId: 'analyze-toast',
-    });
+    toast.loading('Analyzing code, please wait...', { toastId: TOAST_ID });
     setIsLoading(true);
 
     try {
@@ -60,13 +60,14 @@ function App() {
       const result = await Analyzer(body);
 
       if (!result.success || !result.data) {
-        console.error('Analysis failed:', result.error);
-        toast.error(result.error || 'Analysis failed. Please try again.', {
-          toastId: 'analyze-toast',
+        toast.update(TOAST_ID, {
+          render: result.error || 'Analysis failed. Please try again.',
+          type: 'error',
+          isLoading: false,
+          autoClose: 4000,
         });
         setSummary([]);
         setShowSummary(false);
-        setIsLoading(false);
         return;
       }
 
@@ -77,20 +78,28 @@ function App() {
       setShowSummary(parsed.summary?.length > 0 || false);
 
       if (parsed.error) {
-        console.warn('AI reported an error:', parsed.error);
-        toast.error(
-          'Analysis completed with issues. Check the summary for details.',
-          { toastId: 'analyze-toast' }
-        );
+        toast.update(TOAST_ID, {
+          render:
+            'Analysis completed with issues. Check the summary for details.',
+          type: 'error',
+          isLoading: false,
+          autoClose: 4000,
+        });
       } else {
-        toast.success('Code analysis completed successfully!', {
-          toastId: 'analyze-toast',
+        toast.update(TOAST_ID, {
+          render: 'Code analysis completed successfully!',
+          type: 'success',
+          isLoading: false,
+          autoClose: 4000,
         });
       }
     } catch (err) {
       console.error('Unexpected error during analysis:', err);
-      toast.error('Unexpected error during analysis. Please try again.', {
-        toastId: 'analyze-toast',
+      toast.update(TOAST_ID, {
+        render: 'Unexpected error during analysis. Please try again.',
+        type: 'error',
+        isLoading: false,
+        autoClose: 4000,
       });
       setSummary([]);
       setShowSummary(false);
