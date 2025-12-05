@@ -5,10 +5,10 @@ import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
 import ResultPanel from './components/ResultPanel';
 import About from './components/About';
-import extractCodeBlock, { extractSummary } from './utils/extractCleanCode';
 import { Analyzer } from './api/analyzer';
 import { removeCommentsFromCode } from './utils/removeComments';
 import { saveFile } from './utils/saveFile';
+import { toast } from 'react-toastify';
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(['review']);
@@ -45,6 +45,7 @@ function App() {
       code.trim() === '# Start typing your code here...'
     ) {
       console.error('Please enter code to be analyzed');
+      toast.error('Please enter code to be analyzed');
       return;
     }
 
@@ -53,21 +54,43 @@ function App() {
       const body = { code, mode: selectedModes.join(','), language };
       const result = await Analyzer(body);
 
-      let reviewedCode = result.data;
-      if (reviewedCode) {
-        reviewedCode = extractCodeBlock(reviewedCode);
-        const { codeBlock, summaryLines } = extractSummary(
-          reviewedCode,
-          language
-        );
-        reviewedCode = codeBlock.trim();
-        setSummary(summaryLines);
-        setShowSummary(summaryLines.length > 0);
-      }
+      if (result.success && result.data) {
+        let parsed: { code: string; summary: string[]; error: string } | null =
+          null;
+        try {
+          parsed = JSON.parse(result.data);
+        } catch (err) {
+          console.error('Failed to parse AI response:', err);
+          toast.error('Failed to parse AI response.');
+        }
 
-      setCode(reviewedCode || code);
+        if (parsed) {
+          setCode(parsed.code || code);
+          setSummary(parsed.summary || []);
+          setShowSummary(parsed.summary?.length > 0 || false);
+
+          if (parsed.error) {
+            console.warn('AI reported an error:', parsed.error);
+            toast.error(
+              'Analysis completed with errors. Check the summary for details.'
+            );
+          }
+        } else {
+          console.warn('No valid parsed data from AI, keeping original code.');
+          toast.error('No valid parsed data from AI, keeping original code.');
+          setCode(code);
+          setSummary([]);
+          setShowSummary(false);
+        }
+      } else {
+        console.error('Analysis failed:', result.error);
+        setSummary([]);
+        setShowSummary(false);
+      }
     } catch (err) {
-      console.error('Analysis failed:', err);
+      console.error('Unexpected error during analysis:', err);
+      setSummary([]);
+      setShowSummary(false);
     }
     setIsLoading(false);
   };
