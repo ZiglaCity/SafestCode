@@ -9,7 +9,7 @@ import { Analyzer } from './api/analyzer';
 import { removeCommentsFromCode } from './utils/removeComments';
 import { saveFile } from './utils/saveFile';
 import { extractCleanData } from './utils/extractCleanData';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(['review']);
@@ -116,6 +116,18 @@ function App() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-white dark:bg-[#242424] text-black dark:text-white gap-6 p-4">
+      <ToastContainer
+        position="top-right"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <div className="flex-1 w-full lg:w-3/4">
         <CodeEditor
           language={language}
