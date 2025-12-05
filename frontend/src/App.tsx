@@ -3,12 +3,12 @@ import './App.css';
 import CodeEditor from './components/CodeEditor';
 import SubmitButton from './components/SubmitButton';
 import SubmitOptions from './components/SubmitOptions';
-import extractCodeBlock, { extractSummary } from './utils/extractCleanCode';
 import ResultPanel from './components/ResultPanel';
+import About from './components/About';
+import extractCodeBlock, { extractSummary } from './utils/extractCleanCode';
 import { Analyzer } from './api/analyzer';
 import { removeCommentsFromCode } from './utils/removeComments';
 import { saveFile } from './utils/saveFile';
-import About from './components/About';
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(['review']);
@@ -27,89 +27,71 @@ function App() {
   };
 
   const handleSubmit = async () => {
-    if (!code || code === '// Start typing your code here...') {
-      console.error('Pls enter code to be anyalyzed...');
+    if (
+      !code ||
+      code.trim() === '// Start typing your code here...' ||
+      code.trim() === '# Start typing your code here...'
+    ) {
+      console.error('Please enter code to be analyzed');
       return;
     }
+
     setIsLoading(true);
-    const body = {
-      code,
-      mode: selectedModes.join(','),
-      language,
-    };
+    try {
+      const body = { code, mode: selectedModes.join(','), language };
+      const result = await Analyzer(body);
 
-    console.log('Submitted code:', body);
-    const result = await Analyzer(body);
-
-    console.log(result);
-    let reviewedCode = result.data;
-    console.log('Reviewed code: ', reviewedCode);
-    if (reviewedCode) {
-      reviewedCode = extractCodeBlock(reviewedCode);
-      const { codeBlock, summaryLines } = extractSummary(
-        reviewedCode,
-        language
-      );
-      reviewedCode = codeBlock.trim();
-      setSummary(summaryLines);
-      if (summary) {
-        setShowSummary(true);
+      let reviewedCode = result.data;
+      if (reviewedCode) {
+        reviewedCode = extractCodeBlock(reviewedCode);
+        const { codeBlock, summaryLines } = extractSummary(
+          reviewedCode,
+          language
+        );
+        reviewedCode = codeBlock.trim();
+        setSummary(summaryLines);
+        setShowSummary(summaryLines.length > 0);
       }
+
+      setCode(reviewedCode || code);
+    } catch (err) {
+      console.error('Analysis failed:', err);
     }
-    console.log('New reviewed code :', reviewedCode);
-    console.log('Summary: ', summary);
-    setCode(reviewedCode || code);
-    console.log(result);
     setIsLoading(false);
   };
 
-  const removeComments = () => {
-    const clean_code = removeCommentsFromCode('\n' + code, language);
-    setCode(clean_code.trim());
-  };
-
-  const handleSave = () => {
-    saveFile(code, language);
-  };
-
+  const removeComments = () =>
+    setCode(removeCommentsFromCode('\n' + code, language).trim());
+  const handleSave = () => saveFile(code, language);
   const copyCode = async () => {
     try {
-      console.log('Copying to clipboard...');
       await navigator.clipboard.writeText(code);
-      console.log('Copied to clipboard:', code);
-    } catch (err) {
-      console.error('Failed to copy:', err);
+    } catch {
+      console.error('Copy failed');
     }
   };
-
   const cutCode = async () => {
-    try {
-      copyCode();
-      setCode('');
-    } catch (err) {
-      console.log('Failed to cut: ', err);
-    }
+    copyCode();
+    setCode('');
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-white text-black dark:bg-[#242424] dark:text-white gap-6 w-full px-3 py-1">
-      <div className="flex-1 space-y-4">
-        <div className="w-full">
-          <CodeEditor
-            value={code}
-            onChange={handleCodeChange}
-            language={language}
-            setLanguage={setLanguage}
-            setCode={setCode}
-            removeComments={removeComments}
-            saveFile={handleSave}
-            copyCode={copyCode}
-            cutCode={cutCode}
-          />
-        </div>
+    <div className="flex flex-col lg:flex-row bg-white dark:bg-[#242424] text-black dark:text-white min-h-screen gap-6 p-4">
+      <div className="flex-1">
+        <CodeEditor
+          language={language}
+          value={code}
+          onChange={handleCodeChange}
+          setLanguage={setLanguage}
+          setCode={setCode}
+          removeComments={removeComments}
+          saveFile={handleSave}
+          copyCode={copyCode}
+          cutCode={cutCode}
+        />
       </div>
 
-      <div className="lg:w-1/4 w-full space-y-4">
+      <div className="lg:w-1/4 w-full flex flex-col gap-4">
         <SubmitOptions
           selected={selectedModes}
           setSelectedTasks={setSelectedModes}
@@ -122,8 +104,8 @@ function App() {
         {summary.length > 0 && showSummary && (
           <ResultPanel result={summary} onClose={setShowSummary} />
         )}
+        <About />
       </div>
-      <About />
     </div>
   );
 }
