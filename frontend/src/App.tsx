@@ -8,6 +8,7 @@ import ResultPanel from './components/ResultPanel';
 import { Analyzer } from './api/analyzer';
 import { removeCommentsFromCode } from './utils/removeComments';
 import { saveFile } from './utils/saveFile';
+import About from './components/About';
 
 function App() {
   const [selectedModes, setSelectedModes] = useState<string[]>(['review']);
@@ -122,6 +123,7 @@ function App() {
           <ResultPanel result={summary} onClose={setShowSummary} />
         )}
       </div>
+      <About />
     </div>
   );
 }
