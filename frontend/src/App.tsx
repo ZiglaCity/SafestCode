@@ -8,6 +8,7 @@ import About from './components/About';
 import { Analyzer } from './api/analyzer';
 import { removeCommentsFromCode } from './utils/removeComments';
 import { saveFile } from './utils/saveFile';
+import { extractCleanData } from './utils/extractCleanData';
 import { toast } from 'react-toastify';
 
 function App() {
@@ -49,50 +50,53 @@ function App() {
       return;
     }
 
+    toast.loading('Analyzing code, please wait...', {
+      toastId: 'analyze-toast',
+    });
     setIsLoading(true);
+
     try {
       const body = { code, mode: selectedModes.join(','), language };
       const result = await Analyzer(body);
 
-      if (result.success && result.data) {
-        let parsed: { code: string; summary: string[]; error: string } | null =
-          null;
-        try {
-          parsed = JSON.parse(result.data);
-        } catch (err) {
-          console.error('Failed to parse AI response:', err);
-          toast.error('Failed to parse AI response.');
-        }
-
-        if (parsed) {
-          setCode(parsed.code || code);
-          setSummary(parsed.summary || []);
-          setShowSummary(parsed.summary?.length > 0 || false);
-
-          if (parsed.error) {
-            console.warn('AI reported an error:', parsed.error);
-            toast.error(
-              'Analysis completed with errors. Check the summary for details.'
-            );
-          }
-        } else {
-          console.warn('No valid parsed data from AI, keeping original code.');
-          toast.error('No valid parsed data from AI, keeping original code.');
-          setCode(code);
-          setSummary([]);
-          setShowSummary(false);
-        }
-      } else {
+      if (!result.success || !result.data) {
         console.error('Analysis failed:', result.error);
+        toast.error(result.error || 'Analysis failed. Please try again.', {
+          toastId: 'analyze-toast',
+        });
         setSummary([]);
         setShowSummary(false);
+        setIsLoading(false);
+        return;
+      }
+
+      const parsed = extractCleanData(result.data);
+
+      setCode(parsed.code || code);
+      setSummary(parsed.summary || []);
+      setShowSummary(parsed.summary?.length > 0 || false);
+
+      if (parsed.error) {
+        console.warn('AI reported an error:', parsed.error);
+        toast.error(
+          'Analysis completed with issues. Check the summary for details.',
+          { toastId: 'analyze-toast' }
+        );
+      } else {
+        toast.success('Code analysis completed successfully!', {
+          toastId: 'analyze-toast',
+        });
       }
     } catch (err) {
       console.error('Unexpected error during analysis:', err);
+      toast.error('Unexpected error during analysis. Please try again.', {
+        toastId: 'analyze-toast',
+      });
       setSummary([]);
       setShowSummary(false);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const removeComments = () =>
