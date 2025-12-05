@@ -95,7 +95,7 @@ export default function CodeEditor({
             </button>
 
             {menuOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-zinc-900 dark:bg-zinc-800 border border-zinc-700 rounded-md shadow-lg flex flex-col py-2 z-50">
+              <div className="absolute right-0 mt-2 w-15 items-center bg-zinc-900 dark:bg-zinc-800 border border-zinc-700 rounded-md shadow-lg flex flex-col py-2 z-50">
                 <Zoom setFontSize={setFontSize} />
                 <Clear setCode={setCode} />
                 <Cut cutCode={cutCode} />
