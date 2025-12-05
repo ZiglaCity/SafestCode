@@ -1,140 +1,135 @@
-# SafestCode
+# **SafestCode**
 
-SafestCode is an AI-powered code analysis toolkit built for developers who care about clean, secure, and intelligent code. It's designed with scale in mind — starting as a simple web tool, and evolving into a full-blown collaborative platform for debugging, code review, education, and secure software development.
-
----
-
-## What is SafestCode?
-
-SafestCode helps developers analyze code by using cutting-edge AI models. Whether you're trying to debug, refactor, understand, or secure your code, SafestCode offers powerful assistance.
-
-Currently, it supports:
-
-- Pasting or writing code into an editor
-- Selecting a language and a mode of operation (e.g. Debug, Explain, Optimize)
-- Getting instant analysis via Gemini Pro
+SafestCode is an AI-powered code analysis toolkit for developers who want clean, secure, and maintainable code. It provides instant debugging, refactoring, security insights, and explanations across multiple languages.
 
 ---
 
-## Live Demo
+## **Live Demo**
 
-Available at: [https://safest-code.vercel.app](https://safest-code.vercel.app)
-
----
-
-## Tech Stack
-
-| Layer            | Tech Stack                                   |
-|------------------|----------------------------------------------|
-| Frontend         | Vite, React, TypeScript, Tailwind CSS        |
-| AI Engine        | Gemini API (Google Generative AI)            |
-| Hosting          | Vercel                                        |
-| Authentication   | Supabase, Auth.js, or Clerk (Planned)        |
-| Backend (Planned)| Node.js, Express, Prisma, PostgreSQL         |
-| AI Orchestration | Gemini, OpenAI, DeepSeek (Planned Ensemble)  |
+[https://safest-code.vercel.app](https://safest-code.vercel.app)
 
 ---
 
-## Project Structure
+## **About**
+
+SafestCode analyzes code using advanced AI models and returns structured, actionable feedback. It supports multiple modes such as debugging, explanation, optimization, and security scanning.
+
+Designed to grow from a simple web tool into a scalable platform for AI-assisted development.
+
+---
+
+## **Screenshots**
+<img width="1845" height="840" alt="image" src="https://github.com/user-attachments/assets/fb3ccb7c-ba54-40c3-8230-7ff647e43dab" />
+<img width="1855" height="915" alt="image" src="https://github.com/user-attachments/assets/f4fca4f6-9986-420d-b44a-b1fdd22dd2f7" />
+
+---
+
+## **Tech Stack**
+
+| Layer             | Technologies                                |
+| ----------------- | ------------------------------------------- |
+| Frontend          | React, TypeScript, Vite, Tailwind CSS       |
+| AI Engine         | Gemini API                                  |
+| Hosting           | Vercel                                      |
+| Authentication    | Planned (Supabase / Auth.js / Clerk)        |
+| Backend (Planned) | Node.js, Express, Prisma, PostgreSQL        |
+| AI Orchestration  | Gemini, OpenAI, DeepSeek (Planned Ensemble) |
+
+---
+
+## **Current Features (MVP)**
+
+* Code editor with syntax highlighting
+* Multi-language support (JS, TS, Python)
+* Analysis modes (debug, explain, optimize, secure)
+* Clean and consistent prompt generation
+* AI-powered response parsing
+* Error handling, loading states, and improved feedback
+
+---
+
+## **Project Structure**
 
 ```
-
 SafestCode/
 │
-├── frontend/       # Vite + React frontend (live on Vercel)
+├── frontend/           # React frontend (live on Vercel)
 │   └── src/
 │
-├── backend/        # REST API (to be developed for scaling)
+├── backend/           # Upcoming backend for secure AI routing
 │   └── routes/
 │
-├── ai-engine/      # Shared AI logic, prompts, and fallback logic
+├── ai-engine/        # Shared prompts, parsing, and fallback logic (future)
 │   └── prompt/
 │
-└── README.md       # Project overview and vision
-
-````
-
----
-
-## MVP Features (Current)
-
-- Functional code editor
-- Language and mode selection
-- Prompt generation using `generatePrompt`
-- AI-powered response using Gemini API
-- Display of response on the frontend
+└── README.md
+```
 
 ---
 
-## Upcoming Features
+## **Roadmap**
 
-### v1.1
-- Integrate Gemini through a secure backend route (via Edge Functions or Express)
-- Loading states and improved user feedback
-- Better syntax highlighting and language detection
+### **v1.1**
 
-### v1.2
-- Store past results in local storage
-- Introduce AI fallback system (e.g. OpenAI and DeepSeek)
+* Secure backend routing for Gemini
+* Improved syntax highlighting
+* Enhanced UI feedback and loading states
 
-### v2.0 - Auth and Collaboration
-- Add user authentication
-- User dashboard to manage history
-- Multi-user collaboration via shared sessions or sockets
+### **v1.2**
 
----
+* Local storage for analysis history
+* AI fallback system (OpenAI, DeepSeek)
 
-## Long-Term Vision
+### **v2.0** — Collaboration & Auth
 
-SafestCode is built to grow beyond a solo tool. Here’s where we’re taking it:
+* User accounts
+* Dashboard and history tracking
+* Real-time shared sessions
 
-- Full AI-assisted secure code review for teams
-- Smart debugging that explains issues and suggests solutions
-- Collaborative code review features (multi-user editor, comments, shared sessions)
-- VSCode plugin for in-editor analysis
-- GitHub app for automated PR reviews
-- Learning modules for DSA, clean code, and secure programming
-- Enterprise-ready compliance scanning (PCI, GDPR, etc.)
+### **Long-Term**
+
+* VSCode extension
+* GitHub PR review bot
+* Enterprise-grade security scanning
+* AI-assisted learning modules (DSA, clean code, secure coding)
 
 ---
 
-## Getting Started (Dev Mode)
+## **Local Development**
 
-To run the frontend locally:
+Run the frontend:
 
 ```bash
 cd frontend
 npm install
 npm run dev
-````
+```
 
-Make sure to add your `.env` file in `frontend/` with the Gemini API key:
+Add your `.env`:
 
 ```
 VITE_GEMINI_API_KEY=your_api_key_here
 ```
 
-The backend and AI engine logic will be modularized as the project expands.
+Backend and AI engine modules will be integrated as the platform scales.
 
 ---
 
-## Contributing
+## **Contributing**
 
-We're actively building and not yet open to general contributions. Once the foundation is solid, contribution guidelines will be added and issues labeled accordingly.
-
-If you're interested in collaborating, feel free to open a discussion or reach out directly.
+Contributions will open once the core is stable.
+For now, discussions and suggestions are welcome.
 
 ---
 
-## License
+## **License**
 
 MIT License.
-
-Attribution is appreciated if you plan to fork, remix, or use parts of this project in something public.
+Attribution appreciated when using or extending the project.
 
 ---
 
-## Creator
+## **Creator**
 
 **Zigla City**
-Focused on shipping quality tools, learning in public, and building things that scale.
+Building tools that scale with clarity, intention, and precision.
