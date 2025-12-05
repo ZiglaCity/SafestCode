@@ -1,31 +1,26 @@
-interface ButtonType {
+interface Props {
   onSubmit: () => void;
   isLoading: boolean;
   selected: string[];
 }
-const SubmitButton = ({ onSubmit, isLoading, selected }: ButtonType) => {
-  const handleSubmit = () => {
-    if (!selected) {
-      console.error('Please select a task to be peformed');
+
+const SubmitButton: React.FC<Props> = ({ onSubmit, isLoading, selected }) => {
+  const handleClick = () => {
+    if (!selected || selected.length === 0) {
+      console.error('Select a task first');
       return;
     }
     onSubmit();
   };
 
   return (
-    <div className="">
-      <button
-        onClick={handleSubmit}
-        disabled={!selected || isLoading}
-        className={` py-2 rounded-md font-medium text-white px-4 bg-blue-600 hover:bg-blue-700 ${
-          isLoading || !selected
-            ? 'bg-dev-accent/50 cursor-not-allowed'
-            : 'bg-dev-accent hover:bg-dev-accent-muted'
-        }`}
-      >
-        {isLoading ? 'Analyzing...' : 'Analyze Code'}
-      </button>
-    </div>
+    <button
+      onClick={handleClick}
+      disabled={!selected.length || isLoading}
+      className={`w-full py-2 rounded-md font-medium text-white transition-all ${isLoading || !selected.length ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'}`}
+    >
+      {isLoading ? 'Analyzing...' : 'Analyze Code'}
+    </button>
   );
 };
 
