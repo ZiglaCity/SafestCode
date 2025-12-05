@@ -10,7 +10,7 @@ export default function Zoom({ setFontSize }: zoomProps) {
   };
 
   return (
-    <div className="flex">
+    <div className="md:flex sm:grid sm:grid-cols-1 gap-1">
       <div>
         <button
           onClick={() => handleFontChange('-')}
