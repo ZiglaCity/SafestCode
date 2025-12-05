@@ -76,8 +76,9 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-white dark:bg-[#242424] text-black dark:text-white min-h-screen gap-6 p-4">
-      <div className="flex-1">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-white dark:bg-[#242424] text-black dark:text-white gap-6 p-4">
+      {/* Editor Panel */}
+      <div className="flex-1 w-full lg:w-3/4">
         <CodeEditor
           language={language}
           value={code}
@@ -91,7 +92,7 @@ function App() {
         />
       </div>
 
-      <div className="lg:w-1/4 w-full flex flex-col gap-4">
+      <div className="flex flex-col w-full lg:w-1/4 gap-4">
         <SubmitOptions
           selected={selectedModes}
           setSelectedTasks={setSelectedModes}
