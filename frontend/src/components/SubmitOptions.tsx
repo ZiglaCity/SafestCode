@@ -39,7 +39,7 @@ const SubmitOptions: React.FC<Props> = ({ selected, setSelectedTasks }) => {
   };
 
   return (
-    <div className="dev-surface border border-gray-300 dark:border-gray-700 rounded-lg p-4 space-y-4">
+    <div className="dev-surface border border-gray-300 dark:border-gray-700 rounded-lg p-4 space-y-4 mt-2">
       <div className="text-center">
         <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200">
           SafestCode Analysis
