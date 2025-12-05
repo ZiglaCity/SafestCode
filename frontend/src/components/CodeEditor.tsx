@@ -7,6 +7,7 @@ import Copy from './Copy';
 import Cut from './Cut';
 import Zoom from './Zoom';
 import RemoveComments from './RemoveComments';
+import { Menu } from 'lucide-react';
 
 interface Props {
   language: string;
@@ -33,6 +34,7 @@ export default function CodeEditor({
 }: Props) {
   const [theme, setTheme] = useState('vs-light');
   const [fontSize, setFontSize] = useState(14);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -48,6 +50,7 @@ export default function CodeEditor({
     typescript: 'ts',
     javascript: 'js',
   };
+
   const handleEditorChange = (val: string | undefined) =>
     onChange?.(
       val?.trim() === '// Start typing your code here...' ||
@@ -69,14 +72,39 @@ export default function CodeEditor({
             main.{extensions[language]}
           </span>
         </div>
+
         <div className="flex items-center gap-2">
-          <Zoom setFontSize={setFontSize} />
-          <Clear setCode={setCode} />
-          <Cut cutCode={cutCode} />
-          <Copy copyCode={copyCode} />
-          <Save saveFile={saveFile} />
-          <RemoveComments removeComments={removeComments} />
           <LanguageSelector setLanguage={setLanguage} />
+
+          <div className="hidden md:flex items-center gap-2">
+            <Zoom setFontSize={setFontSize} />
+            <Clear setCode={setCode} />
+            <Cut cutCode={cutCode} />
+            <Copy copyCode={copyCode} />
+            <Save saveFile={saveFile} />
+            <RemoveComments removeComments={removeComments} />
+          </div>
+
+          <div className="md:hidden relative">
+            <button
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              title="Editor Actions"
+            >
+              <Menu />
+            </button>
+
+            {menuOpen && (
+              <div className="absolute right-0 mt-2 w-48 bg-zinc-900 dark:bg-zinc-800 border border-zinc-700 rounded-md shadow-lg flex flex-col py-2 z-50">
+                <Zoom setFontSize={setFontSize} />
+                <Clear setCode={setCode} />
+                <Cut cutCode={cutCode} />
+                <Copy copyCode={copyCode} />
+                <Save saveFile={saveFile} />
+                <RemoveComments removeComments={removeComments} />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
