@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import CodeEditor from './components/CodeEditor';
 import SubmitButton from './components/SubmitButton';
@@ -25,6 +25,18 @@ function App() {
   const handleCodeChange = (updatedCode: string | undefined) => {
     setCode(updatedCode || '');
   };
+
+  useEffect(() => {
+    if (
+      code.trim() === '// Start typing your code here...' ||
+      code.trim() === '# Start typing your code here...'
+    )
+      setCode(
+        language !== 'python'
+          ? '// Start typing your code here...'
+          : '# Start typing your code here...'
+      );
+  }, [language]);
 
   const handleSubmit = async () => {
     if (
@@ -77,7 +89,6 @@ function App() {
 
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-white dark:bg-[#242424] text-black dark:text-white gap-6 p-4">
-      {/* Editor Panel */}
       <div className="flex-1 w-full lg:w-3/4">
         <CodeEditor
           language={language}
